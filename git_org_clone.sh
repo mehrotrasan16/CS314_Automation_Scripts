@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #Clones certain directories from one organization repo to another. Both repos should already exist. Name of the organizations and the folders to clone are specifed in the shell script.
-
-#TODO: extend using ssh so that you don't have to put in your username and password in everytime
-#hub was used to make this work, you may need to install it: `sudo apt install hub`
+#Author: Sanket Mehrotra
+#this script requires the current user to be a member of the organization, have owner permissions to create repos, and have ssh keys setup to allow git@github pushing instead of https.
+#hub was used to make this work, you may need to install it: `sudo apt install hub`. Hub also requires ssh keys to be set up to allow creation of private repos
 
 
 #Organizations Should ALREADY EXIST!
