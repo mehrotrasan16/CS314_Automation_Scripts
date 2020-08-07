@@ -10,11 +10,7 @@
 ORG_NAME=csucs314s20
 NEW_ORG_NAME=csucs314f20
 
-GIT_USERNAME=mehrotrasan16
-
-folders=("devops")
-
-repos="devops grading product" # base guide
+repos="devops grading guide product" # devops base guide product
 
 
 if [ $# -gt 0 ]
@@ -35,8 +31,12 @@ cd $ORG_NAME
 # Read through the folder list, get each repo and copy it to 
 for repo in $repos
 do
-  echo "Cloning $i from https://github.com/$ORG_NAME/$repo.git to local storage, please wait."
-  git clone https://github.com/$ORG_NAME/$repo.git
+  echo "
+  Cloning $i 
+  from https://github.com/$ORG_NAME/$repo.git to local storage, please wait.
+  "
+  
+  git clone --mirror git@github.com:$ORG_NAME/$repo.git
   
   # If repo doesn't exist, die
   if [ $? -ne 0 ]
@@ -44,32 +44,20 @@ do
     echo "Failed to clone repository $repo. Does it exist?"
     exit 1
   fi
-done
-echo "Cloned specified repos from old organization repo to local folder at $(pwd) sucessfully."
-
-
-cd ..
-mkdir $NEW_ORG_NAME
-cd $NEW_ORG_NAME
-
-for repo in $repos
-do
-  echo "\n\nCreating project repo in new organization repository : https://github.com/$NEW_ORG_NAME/$repo.git on remote, please wait."
-  repo_name=$repo
-  rsync -rv --exclude=.git ../$ORG_NAME/$repo ./ 
-  cd ./$repo
-  #curl -u $GIT_USERNAME -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/$NEW_ORG_NAME/repos -d \'{\"name\":$repo_name\,\"private\":true}\' 
-  git init
-  git add .
-  git commit -m "$i Repo cloned from $ORG_NAME"
+  
+  cd $repo.git
+  
   hub create -p $NEW_ORG_NAME/$repo
+  
   if [ $? -ne 0 ]
   then
     echo "\n\nFailed to create repository $repo on $NEW_ORG_NAME. is the name valid??"
     exit 1
   fi
-  git remote add origin https://github.com/$NEW_ORG_NAME/$repo.git
-  git push -u origin master 
+  
+  git remote set-url --push origin git@github.com:$NEW_ORG_NAME/$repo.git 
+  git push git@github.com:$NEW_ORG_NAME/$repo.git 
   cd ..
 done
-echo "Sucess
+echo "Cloned specified repos from old organization $ORG_NAME repo to local folder at $(pwd) and pushed to new organization $NEW_ORG_NAME repo sucessfully."
+
