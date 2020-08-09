@@ -10,7 +10,7 @@
 ORG_NAME=csucs314s20
 NEW_ORG_NAME=csucs314f20
 
-repos="devops grading guide product" # devops base guide product
+repos="devops grading guide product" # list of folders, space separated
 
 
 if [ $# -gt 0 ]

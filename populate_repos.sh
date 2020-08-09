@@ -7,7 +7,11 @@ ORG_NAME=csucs314f20
 
 if [ $# -eq 0 ]
 then
-  echo "Usage: ./populate_repos.sh <team_list>"
+	echo "
+		Utility: git organization clone
+		Usage: ./populate_repos.sh <team_list file>
+		Function: Populates team repositories with the starter kit codebase. Base code repo should already exist. Name of the organization is specifed in the shell script. Team names are to be provided in a separate file, each on a new line.
+		"
   exit 1
 fi
 
